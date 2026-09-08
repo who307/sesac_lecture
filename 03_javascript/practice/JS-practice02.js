@@ -21,7 +21,7 @@
 가격 타입: number
 판매 가능 타입: boolean
 */
-
+console.log("-----문제 1 풀이-----");
 // 문제 1 풀이
 const productName = "노트";
 const productPrice = 3000;
@@ -56,7 +56,7 @@ const inputDeliveryFee = '3000';
 합계 타입: number
 
 */
-console.log("----------------------");
+console.log("-----문제 2 풀이-----");
 // 문제 2 풀이
 const inputPrice = "12000";
 const inputDeliveryFee = "3000";
@@ -92,7 +92,7 @@ false, 30000 → false
 같은 이름의 const를 아래에 반복 선언하지 말고,
 처음 작성한 입력값을 바꾼 뒤 파일을 다시 실행하세요.
 */
-console.log("----------------------");
+console.log("-----문제 3 풀이-----");
 // 문제 3 풀이
 const isMember = false;
 const orderAmount = 30000;
@@ -129,7 +129,7 @@ let score = 85;
 
 입력값만 바꾸어 각각 실행하세요.
 */
-console.log("----------------------");
+console.log("-----문제 4 풀이-----");
 // 문제 4 풀이
 let score = -1;
 
@@ -168,7 +168,7 @@ if (score < 0 || score > 100) {
 개수: 6
 합계: 63
 */
-console.log("----------------------");
+console.log("-----문제 5 풀이-----");
 // 문제 5 풀이
 
 let count = 0;
@@ -212,7 +212,7 @@ console.log(`합계: ${total}`);
 삭제 후 카테고리: undefined
 
 */
-console.log("----------------------");
+console.log("-----문제 6 풀이-----");
 // 문제 6 풀이
 const product = {
     name: "노트",
@@ -222,12 +222,13 @@ const product = {
 };
 let key = "price";
 
-console.log(`가격: ${product[key]}`);
-product.stock = product.stock - 2;
-console.log(`남은 재고: ${product.stock}`);
+product.stock -= 2;
 product.isAvailable = product.stock > 0;
-console.log(`판매 가능: ${product.isAvailable}`);
 delete product.category;
+
+console.log(`가격: ${product[key]}`);
+console.log(`남은 재고: ${product.stock}`);
+console.log(`판매 가능: ${product.isAvailable}`);
 console.log(`삭제 후 카테고리: ${product.category}`);
 
 /*
@@ -256,7 +257,7 @@ getOrderTotal(3000, -2) → 0
 getOrderTotal(3000, 2)의 반환값에 배송비 2500을 더해 출력하세요.
 예상 출력: 배송비 포함: 8500
 */
-console.log("----------------------");
+console.log("-----문제 7 풀이-----");
 // 문제 7 풀이
 function getOrderTotal(price, quantity) {
     if (quantity <= 0) return 0;
