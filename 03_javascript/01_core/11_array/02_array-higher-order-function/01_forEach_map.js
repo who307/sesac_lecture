@@ -33,7 +33,7 @@ console.log(ignoredNames);
 const studendNames = students.map((student) => student.name);
 console.log(studendNames);
 
-// 원 본 배열에 영향을 주지는 않는다.
+// 원본 배열에 영향을 주지는 않는다.
 console.log(students[0]);
 
 // 점수에 5점을 더하여 배열로 반환받기

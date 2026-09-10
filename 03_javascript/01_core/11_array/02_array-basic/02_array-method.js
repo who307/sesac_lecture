@@ -18,7 +18,7 @@ console.log(foods);
 foods.shift();
 console.log(foods);
 
-// indexOf("값"): 값이 ㅓ음으로 나오는 인덱스 반환
+// indexOf('값'): 값이 처음으로 나오는 인덱스 반환
 const animals = ["고양이", "강아지", "토끼", "햄스터", "고양이"];
 console.log(animals.indexOf("고양이"));
 console.log(animals.indexOf("호랑이")); // 없으면 -1 반환
