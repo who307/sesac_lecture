@@ -25,8 +25,42 @@
     </ul>
 
     <script>
+        const $me = document.getElementById('me');
 
-</script>
+        const $family = document.getElementById('family');
+        // childNodes: 모든 '자식 요소'들을 NodeList로 반환(공백/텍스트/주석 노드 포함)
+        console.log($family.childNodes);
+
+        console.log('====자식 요소 탐색====');
+        // children: 모든 '자식 요소'들을 HTMLCollection으로 반환(텍스트 노드 제외)
+        const $children = $family.children;
+        console.log($children);
+
+        // firstElementChild: 첫 번째 '자식 요소' 반환
+        const $first = $family.firstElementChild;
+        console.log($first);
+        $first.style.color = 'red';
+
+        // lastElementChild: 마지막 '자식 요소' 반환
+        const $last = $family.lastElementChild;
+        console.log($last);
+
+        console.log('\n==== 부모 요소 탐색 ====');
+        // parentNode: 나의 '부모 노드' 반환
+        // HTML 요소를 기준으로 다룰 때는 parentElement도 자주 사용
+
+        const $parent = $me.parentNode;
+        console.log($parent);
+        $parent.style.border = '1px solid blue';
+
+        console.log('\n==== 형제 요소 탐색====');
+        // nextElementSibling : 나의 바로 다음 '형제 요소' 반환
+        const $next = $me.nextElementSibling;
+        console.log($next);
+        
+        // previousElementSibling: 나의 바로 이전 '형제 요소' 반환
+        const $prev = $next.previousElementSibling;
+        console.log($prev);
+    </script>
 </body>
 </html>
-
