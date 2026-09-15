@@ -59,7 +59,9 @@
                 countResult.textContent = "클릭 횟수: " + count;
             }
             countButton.addEventListener("click", countUp);
-            countStopButton.removeEventListener("click", countUp)
+            countStopButton.addEventListener("click", () => {
+                countButton.removeEventListener("click", countUp);
+            });
         </script>
     </section>
 
