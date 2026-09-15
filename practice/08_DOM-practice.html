@@ -384,7 +384,7 @@
                 selectedProduct.classList.add("selected")
                 selectedProduct.setAttribute("data-selected",true);
                 
-                selectedResult.innerText = `상품명 : ${selectedProductObj.name} \n 상품 가격 : ${selectedProductObj.price}`
+                selectedResult.innerText = `상품명 : ${selectedProductObj.name} \n 상품 가격 : ${Number(selectedProductObj.price).toLocaleString()}원`
                 
 
             }

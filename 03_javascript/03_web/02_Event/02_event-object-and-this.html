@@ -18,7 +18,14 @@
 <h2 id="msg">여기를 클릭하면, 클릭한 곳의 마우스 좌표를 알려드립니다.</h2>
 
 <script>
+    const $msg = document.getElementById("msg");
+    document.addEventListener("click", function(e){
+        console.log(e);
+        $msg.textContent = `마우스 좌표 -> x: ${e.clientX} y: ${e.clientY}`
 
+        //console.log("실제 클릭 대상(e.target):", e.target);
+        //console.log("실제 클릭 대상(e.target):", e.currentTarget);
+    })
 </script>
 
 <hr>
@@ -32,7 +39,23 @@
 <button id="btn">클릭해보세요</button>
 
 <script>
+    const $btn = document.getElementById("btn");
 
+    // 일반 function 함수 사용 시
+    $btn.addEventListener("click", function (e) {
+        console.log("----일반 function----");
+        console.log("this:", this); // 이벤트 핸들러가 등록된 요소
+        console.log("e.currentTarget:", e.currentTarget);
+        console.log(this === e.currentTarget);
+
+        this.style.backgroundColor = "green";
+    })
+
+    $btn.addEventListener("mouseover", (e) => {
+        console.log("----arrow function----");
+        console.log("this:", this); // 바깥 스코프의 this를 가리킴
+        console.log(e.currentTarget); // 이벤트 핸들러가 등록된 요소
+    })
 </script>
 
 <hr>
@@ -48,7 +71,20 @@
 
 <button id="best-practice-btn">Best Practice</button>
 <script>
+    const $bestBtn = document.getElementById("best-practice-btn");
 
+    $bestBtn.addEventListener("click", (e) => {
+        const btn = e.currentTarget;
+
+        btn.textContent = "클릭되었습니다!"
+        btn.style.backgroundColor = "red"
+
+        // setTimout(실행할함수, 대기시간);
+        setTimeout(() => {
+            btn.textContent = "Best Practice"
+            btn.style.backgroundColor = ""
+        }, 2000)
+    })
 </script>
 
 </body>

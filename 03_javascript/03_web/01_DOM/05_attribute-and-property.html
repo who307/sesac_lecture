@@ -91,11 +91,24 @@
     <li data-board-id="15" data-category-name="운동">한강 러닝 크루 구해요!</li>
     <li data-board-id="18" data-category-name="경제">요즘 재태크 어떻게 하시나요?</li>
 </ul>
-
 <script>
     const $boardList = document.querySelector('.board-list');
 
-    $boardList.onclick = () => {}
+    $boardList.addEventListener("click", (e)=>{
+    console.log(e.target);
+    if(e.target.tagName !== "LI") return;
+
+    const boardId = e.target.dataset.boardId;
+    const categoryName = e.target.dataset.categoryName;
+
+    console.log(`선택한 게시글 ${boardId}, ${categoryName}`);
+
+    // 값을 추가, 변경 할 수 있다.
+    e.target.dataset.readStatus = "read";
+    // 삭제
+    delete e.target.dataset.readStatus;
+
+    })
 </script>
 
 </body>
