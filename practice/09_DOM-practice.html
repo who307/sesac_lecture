@@ -85,19 +85,18 @@
             const $menuItems = document.querySelectorAll(".menu-item");
             const $menuResult = document.getElementById("menu-result");
 
-            $menuList.addEventListener("click", (e)=>{
-                
+            $menuList.addEventListener("click", (e) => {
+
                 const $selectBtn = e.target.closest(".select-menu");
-                if (!$selectBtn) return; 
+                if (!$selectBtn) return;
+                const $menuItem = $selectBtn.closest(".menu-item")
                 const menuId = $selectBtn.dataset.menuId;
-                const menuName = $selectBtn.closest(".menu-item").textContent;
+                const menuName = $menuItem.querySelector("span").textContent;
 
                 $menuItems.forEach(item => item.classList.remove("selected"))
-                
-                if($selectBtn){
-                    e.target.closest(".menu-item").classList.add("selected");
-                    $menuResult.innerHTML = `메뉴 ID : ${menuId}<br> 메뉴명 : ${menuName}`
-                }
+
+                $menuItem.classList.add("selected");
+                $menuResult.innerHTML = `메뉴 ID : ${menuId}<br> 메뉴명 : ${menuName}`
             })
         </script>
     </section>
