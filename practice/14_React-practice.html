@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포켓몬 API 실습</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+
+        .instructions {
+            max-width: 900px;
+            margin: 20px 10px;
+            padding: 12px 18px;
+            background: #f5f7fb;
+        }
+
+        .instructions h1 {
+            font-size: 22px;
+            margin: 0 0 8px;
+        }
+
+        .instructions ol {
+            margin: 8px 0;
+            padding-left: 22px;
+        }
+
+        .instructions details {
+            margin-top: 10px;
+        }
+
+        .card {
+            border: 1px solid black;
+            width: 300px;
+            margin: 10px;
+            padding: 20px;
+            display: inline-block;
+        }
+
+        .card>* {
+            display: inline-block;
+        }
+
+        .card img {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+
+<body>
+    <section class="instructions">
+        <h1>실습: 포켓몬 목록과 상세 정보 연결하기</h1>
+        <p>목록 API에는 포켓몬의 이름과 상세 URL만 있습니다. 상세 URL들을 다시 요청하여 번호와 이미지가 있는 카드를 표시해 보세요. 아래 <code>TODO</code> 부분만 작성하면 됩니다.
+        </p>
+        <ol>
+            <li><code>https://pokeapi.co/api/v2/pokemon</code>을 요청하고, 응답이 성공했는지 확인한 뒤 JSON으로 변환하세요.</li>
+            <li><code>listData.results</code>의 각 <code>pokemon.url</code>을 요청하는 Promise 배열을 만드세요. 상세 응답도 성공 여부를 확인하고
+                JSON으로 변환하세요.</li>
+            <li><code>Promise.all</code>로 모든 상세 정보가 준비되면 <code>pokemons</code> 상태에 저장하세요.</li>
+            <li>실패하면 <code>error</code> 상태에 오류를 저장하고, 성공·실패와 관계없이 <code>loading</code>을 <code>false</code>로 바꾸세요.</li>
+            <li>저장된 포켓몬을 <code>Card</code> 목록으로 렌더링하세요.</li>
+        </ol>
+        <details>
+            <summary>막혔을 때 보는 힌트</summary>
+            <p><code>fetch(...).then(...).then(...).then(...).catch(...).finally(...)</code> 순서로 연결해 보세요. 첫 번째
+                <code>then</code>에서는 <code>response.json()</code>을 <code>return</code>하고, 다음 <code>then</code>에서는
+                <code>listData.results.map(...)</code>으로 상세 요청 배열을 만듭니다. 이때 <code>Promise.all(detailPromises)</code>을
+                <code>return</code>해야 다음 <code>then</code>에서 상세 데이터 배열을 받을 수 있습니다. <code>fetch</code>는 HTTP 오류 상태만으로 자동
+                실패하지 않으므로 <code>response.ok</code>도 확인하세요.
+            </p>
+            <p>렌더링에는 <code>pokemons.map(pokemon =&gt; &lt;Card key={pokemon.id} pokemon={pokemon} /&gt;)</code> 형태를
+                참고하세요.</p>
+        </details>
+    </section>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        function Title() {
+            return <h1>포켓몬 목록</h1>;
+        }
+
+        function PokemonList() {
+            const [pokemons, setPokemons] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+
+            useEffect(() => {
+                // TODO 1. 목록 API를 fetch로 요청하고 응답의 ok 여부를 확인하세요.
+                // TODO 2. 목록 응답을 JSON으로 변환하세요.
+                // TODO 3. listData.results의 각 상세 URL을 요청하는 Promise 배열을 만드세요.
+                //         각 상세 응답의 ok 여부도 확인하고 JSON으로 변환하세요.
+                // TODO 4. Promise.all(detailPromises)을 반환해 다음 then에 연결하세요.
+                // TODO 5. 상세 정보 배열을 setPokemons로 저장하세요.
+                // TODO 6. catch에서 setError, finally에서 setLoading을 호출하세요.
+
+                const getAPI = async () => {
+                    try {
+                        const res = await fetch('https://pokeapi.co/api/v2/pokemon')
+                        const data = await res.json();
+                        console.log(data.results);
+                        const pokeList = data.results.map(async poke => {
+                            const res = await fetch(poke.url);
+                            if (!res.ok) throw new Error("포켓몬 정보 없음");
+                            return res.json();
+
+                        });
+                        const result = await Promise.all(pokeList)
+                        setPokemons(result)
+                        console.log(result);
+
+                    } catch (error) {
+                        console.error(error)
+                        setError(true);
+                    } finally {
+                        setLoading(false);
+                    }
+
+                }
+                getAPI();
+            }, []);
+
+            if (loading) return <p>모든 포켓몬을 불러오는 중...</p>;
+            if (error) return <p>오류가 발생했습니다: {error.message}</p>;
+
+            return (
+                <div>
+                    {/* TODO 7. pokemons.map으로 Card를 여러 개 렌더링하세요. key와 pokemon props를 전달하세요. */}
+                    {pokemons.map((pokemon) => <Card key={pokemon.id} pokemon={pokemon} />)}
+                </div>
+            );
+        }
+
+        // 프롭스로 pokemon을 전달받아 화면을 구성해보세요
+        function Card({ pokemon }) {
+            const imageUrl = pokemon.sprites.other?.dream_world?.front_default || pokemon.sprites.front_default;
+            return (
+                <div key={pokemon.id} className="card">
+                    <img src={imageUrl} />
+                    <h2>{pokemon.name}</h2>
+                </div>
+            );
+        }
+
+        function App() {
+            return (
+                <>
+                    <Title />
+                    <PokemonList />
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+</body>
+
+</html>
