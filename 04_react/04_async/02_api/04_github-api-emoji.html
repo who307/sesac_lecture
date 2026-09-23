@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 
 <head>
     <meta charset="UTF-8">
@@ -8,6 +8,37 @@
     <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .cardList {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .card {
+            padding: 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #fafafa;
+        }
+
+        .cardEmoji {
+            width: 48px;
+            height: 48px;
+        }
+
+        .cardName {
+            margin-top: 8px;
+            font-size: 14px;
+            word-break: break-all;
+            text-align: center;
+        }
+    </style>
 </head>
 
 <body>
@@ -16,82 +47,123 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        const API_URL = 'https://api.github.com/emojis'
+        const API_URL = 'https://api.github.com/emojis';
 
-        // 사용자의 입력을 받고, '검색' 이벤트가 발생했음을 부모에게 알린다.
-        // 자신이 무엇을 검색하는지 모른다. (오직 부모에게 전달만 할 뿐)
-        function SearchBox({ inputValue, inputHandler, searchHanlder }) {
+        // 사용자 입력을 받는 검색 상자 컴포넌트
+        function SearchBox({ inputValue, inputHandler, searchHandler }) {
+            const handleKeyDown = (e) => {
+                if (e.key === 'Enter') {
+                    searchHandler();
+                }
+            };
+
             return (
-                <>
-                    <input type="text" value={inputValue} placeholder='이모지 이름을 입력하세요' onChange={inputHandler} />
-                    <button onClick={searchHanlder}>검색</button>
-                </>
-            )
+                <div>
+                    <input 
+                        type="text" 
+                        value={inputValue} 
+                        placeholder="이모지 이름을 입력하세요." 
+                        onChange={inputHandler}
+                        onKeyDown={handleKeyDown}
+                    />
+                    <button onClick={searchHandler}>검색</button>
+                </div>
+            );
         }
-        // 부모가 주는 상태 (loading,imgUrl)에 따라 화면을 다르게 보여준다.
-        // 로딩중인지, 이미지가 있는지 없는지 스스로 판단하지 않는다.
-        function ImageBox({ error, searchData }) {
 
+        // 검색 결과 및 로딩/에러 상태를 시각화하는 컴포넌트
+        function ImageBox({ searchData, loading, error }) {
+            if (loading) {
+                return <div>이모지 목록을 불러오는 중입니다...</div>;
+            }
 
             if (error) {
-                return <div>오류 발생: {error.message}</div>
+                return <div>오류 발생: {error.message}</div>;
             }
-            if (!searchData) {
-                return <div>이모지 목록을 불러오지 못했습니다.</div>
+
+            if (!searchData || searchData.length === 0) {
+                return <div>검색 결과가 없습니다.</div>;
             }
+
             return (
-                <>
-                    {
-                        searchData.map((data) => <div key={data.id}><p>{data.name}</p><img /></div>)}
-                </>
-            )
+                <div className="cardList">
+                    {searchData.map((item) => (
+                        <div key={item.name} className="card">
+                            <img src={item.url} alt={item.name} className="cardEmoji" />
+                            <span className="cardName">{item.name}</span>
+                        </div>
+                    ))}
+                </div>
+            );
         }
-        // 모든 데이터와 상태(로딩, 전체 이모지 목록, 검색 결과 URL)를 관리한다.
-        // API 통신을 책임지고, 자식들의 행동에 따라 상태를 업데이트 한다.
+
+        // 전체 상태와 API 통신을 제어하는 메인 App 컴포넌트
         function App() {
-            const [data, setData] = useState([]);
             const [error, setError] = useState(null);
-            const [inputValue, setInputValue] = useState('')
+            const [loading, setLoading] = useState(true);
+            const [data, setData] = useState([]);
+            const [inputValue, setInputValue] = useState('');
             const [searchData, setSearchData] = useState([]);
 
             useEffect(() => {
                 const getAPI = async () => {
                     try {
-                        const res = await fetch(API_URL)
+                        setLoading(true);
+                        const res = await fetch(API_URL);
 
                         if (!res.ok) {
-                            throw new Error('이모지 정보 없음!')
+                            throw new Error('이모지 데이터를 불러올 수 없습니다.');
                         }
+
                         const imagesData = await res.json();
-                        setData(imagesData);
-                    } catch (error) {
-                        console.error(error);
-                        setError(error);
+                        const formattedData = Object.entries(imagesData).map(([name, url]) => ({
+                            name,
+                            url,
+                        }));
+
+                        setData(formattedData);
+                    } catch (err) {
+                        console.error(err);
+                        setError(err);
                     } finally {
+                        setLoading(false);
                     }
-                }
+                };
                 getAPI();
-            }, [])
+            }, []);
 
             const inputHandler = (e) => {
                 setInputValue(e.target.value);
-            }
-            const searchHanlder = () => {
-                const result = data.filter(image => image.name.includes(inputValue))
-                console.log(result);
-                setSearchData(result)
-            }
+            };
+
+            const searchHandler = () => {
+                const query = inputValue.trim().toLowerCase();
+
+                // 검색어가 없으면 전체 목록 복원
+                if (!query) {
+                    return;
+                }
+
+                // 대소문자 미구분 부분 검색
+                const result = data.filter((image) =>
+                    image.name.toLowerCase().includes(query)
+                );
+
+                setSearchData(result);
+            };
 
             return (
-                <>
+                <div style={{ padding: '20px' }}>
                     <h1>이모지 검색기</h1>
-                    {/* '무엇을 할지'가 아닌, '어떻게 해야하는지(함수)'를 알려준다 */}
-                    <SearchBox inputValue={inputValue} inputHandler={inputHandler} searchHanlder={searchHanlder} />
+                    <SearchBox 
+                        inputValue={inputValue} 
+                        inputHandler={inputHandler} 
+                        searchHandler={searchHandler} 
+                    />
                     <br />
-                    {/* 자식에게는 현재 '상태(로딩중, 에러, imgaURL)'만 알려준다. */}
-                    <ImageBox error={error} searchData={searchData} />
-                </>
-            )
+                    <ImageBox error={error} loading={loading} searchData={searchData} />
+                </div>
+            );
         }
 
         ReactDOM.createRoot(document.getElementById('root')).render(<App />);
