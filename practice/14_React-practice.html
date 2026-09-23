@@ -12,13 +12,16 @@
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
+            background-color: #f8f9fa;
         }
 
         .instructions {
             max-width: 900px;
             margin: 20px 10px;
             padding: 12px 18px;
-            background: #f5f7fb;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
 
         .instructions h1 {
@@ -35,21 +38,38 @@
             margin-top: 10px;
         }
 
+        /* ----- 카드 디자인 수정 부분 ----- */
         .card {
-            border: 1px solid black;
-            width: 300px;
-            margin: 10px;
-            padding: 20px;
-            display: inline-block;
+            border: 1px solid #e0e0e0;
+            border-radius: 12px;
+            width: 200px;
+            margin: 12px;
+            padding: 16px;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #ffffff;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            vertical-align: top;
         }
 
-        .card>* {
-            display: inline-block;
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.12);
         }
 
         .card img {
             width: 100px;
             height: 100px;
+            object-fit: contain;
+        }
+
+        .card h2 {
+            font-size: 18px;
+            margin: 12px 0 0 0;
+            text-transform: capitalize;
+            color: #333;
         }
     </style>
 </head>
@@ -95,14 +115,6 @@
             const [error, setError] = useState(null);
 
             useEffect(() => {
-                // TODO 1. 목록 API를 fetch로 요청하고 응답의 ok 여부를 확인하세요.
-                // TODO 2. 목록 응답을 JSON으로 변환하세요.
-                // TODO 3. listData.results의 각 상세 URL을 요청하는 Promise 배열을 만드세요.
-                //         각 상세 응답의 ok 여부도 확인하고 JSON으로 변환하세요.
-                // TODO 4. Promise.all(detailPromises)을 반환해 다음 then에 연결하세요.
-                // TODO 5. 상세 정보 배열을 setPokemons로 저장하세요.
-                // TODO 6. catch에서 setError, finally에서 setLoading을 호출하세요.
-
                 const getAPI = async () => {
                     try {
                         const res = await fetch('https://pokeapi.co/api/v2/pokemon')
@@ -134,7 +146,6 @@
 
             return (
                 <div>
-                    {/* TODO 7. pokemons.map으로 Card를 여러 개 렌더링하세요. key와 pokemon props를 전달하세요. */}
                     {pokemons.map((pokemon) => <Card key={pokemon.id} pokemon={pokemon} />)}
                 </div>
             );
@@ -144,8 +155,8 @@
         function Card({ pokemon }) {
             const imageUrl = pokemon.sprites.other?.dream_world?.front_default || pokemon.sprites.front_default;
             return (
-                <div key={pokemon.id} className="card">
-                    <img src={imageUrl} />
+                <div className="card">
+                    <img src={imageUrl} alt={pokemon.name} />
                     <h2>{pokemon.name}</h2>
                 </div>
             );
