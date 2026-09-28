@@ -1,0 +1,20 @@
+{
+  "posts": [
+    {
+      "id": "1",
+      "title": "수정된 게시글 제목",
+      "author": "판다"
+    },
+    {
+      "id": "2",
+      "title": "두 번째 게시글",
+      "author": "호랑이"
+    },
+    {
+      "title": "새로운 게시글 #3",
+      "author": "익명",
+      "id": "aGuO466VErU"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
