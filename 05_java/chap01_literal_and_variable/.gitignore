@@ -1,0 +1,8 @@
+﻿# IDE files
+.idea/
+*.iml
+out/
+
+# Windows folder metadata
+desktop.ini
+Icon.ico
