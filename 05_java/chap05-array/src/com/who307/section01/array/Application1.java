@@ -22,11 +22,11 @@ public class Application1 {
         scores[4] = 100;
 
         int sum2 = 0;
-        for (int i = 0; i < scores.length; i++){
+        for (int i = 0; i < scores.length; i++) {
             sum2 += scores[i];
         }
 
-        double avg2 = sum2 / (double)scores.length;
+        double avg2 = sum2 / (double) scores.length;
         System.out.println(sum2);
         System.out.println(avg2);
 

@@ -10,9 +10,9 @@ public class Application2 {
         };
 
         // 각 학생의 총점과 평균 계산 및 출력
-        for(int i = 0; i < scores.length; i++){
+        for (int i = 0; i < scores.length; i++) {
             int sum = 0;
-            for(int j = 0; j < scores[i].length; j++){
+            for (int j = 0; j < scores[i].length; j++) {
                 sum += scores[i][j]; // 현재 학생의 j번째 과목점수 누적
             }
             double avg = sum / (double) scores[i].length;
@@ -32,16 +32,16 @@ public class Application2 {
         int[][] studentArr = new int[studentCount][subjectCount];
 
         // 점수 입력받기
-        for(int i = 0; i < studentArr.length; i++){
-            for(int j = 0; j < studentArr[i].length; j++) {
+        for (int i = 0; i < studentArr.length; i++) {
+            for (int j = 0; j < studentArr[i].length; j++) {
                 System.out.print((i + 1) + "번째 학생의 점수를 입력: ");
                 studentArr[i][j] = sc.nextInt();
             }
         }
         // 순회해서 출력해보기
-        for(int a = 0; a < studentArr.length; a++){
+        for (int a = 0; a < studentArr.length; a++) {
             System.out.println((a + 1) + "번째 학생 점수");
-            for(int b = 0; b < studentArr[a].length; b++){
+            for (int b = 0; b < studentArr[a].length; b++) {
                 System.out.print(studentArr[a][b] + " ");
             }
             System.out.println();

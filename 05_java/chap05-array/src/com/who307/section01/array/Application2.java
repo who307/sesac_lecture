@@ -31,8 +31,8 @@ public class Application2 {
         iarr[2] = 30;
 //        iarr[5] = 60;
 
-        for(int i = 0; i < iarr.length; i++){
-            System.out.println(i + "번 인덱스의 값: " + iarr[i] );
+        for (int i = 0; i < iarr.length; i++) {
+            System.out.println(i + "번 인덱스의 값: " + iarr[i]);
         }
 
         // 문자열도 배열로 사용 가능
@@ -41,7 +41,7 @@ public class Application2 {
         System.out.println(sarr);
 
         // 반복문이나 arrays.toString()을 사용
-        for(int i = 0; i < sarr.length; i++){
+        for (int i = 0; i < sarr.length; i++) {
             System.out.println(i + "번 인덱스의 값:" + sarr[i]);
         }
     }

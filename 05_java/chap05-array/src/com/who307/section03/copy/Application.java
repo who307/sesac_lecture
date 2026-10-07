@@ -11,9 +11,9 @@ public class Application {
         int[] copyArr = originArr;
 
         /*
-        * [얕은 복사]
-        * 메소드에 인자로 배열을 전달하거나, 메소드가 배열을 반환할 때 발생
-        * */
+         * [얕은 복사]
+         * 메소드에 인자로 배열을 전달하거나, 메소드가 배열을 반환할 때 발생
+         * */
 
         System.out.println("같은 배열인가? " + ((originArr == copyArr) ? "같다" : "다르다"));
 

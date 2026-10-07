@@ -10,15 +10,15 @@ public class Application {
 
         // 2. 중첩 반복문을 이용한 값 대입
         int value = 1;
-        for(int i = 0; i < iarr.length; i++){
-            for(int j = 0; j < iarr[i].length; j++){
+        for (int i = 0; i < iarr.length; i++) {
+            for (int j = 0; j < iarr[i].length; j++) {
                 iarr[i][j] = value++;
             }
         }
 
         // 값 확인
-        for(int i = 0; i < iarr.length; i++){
-            for(int j = 0; j < iarr[i].length; j++){
+        for (int i = 0; i < iarr.length; i++) {
+            for (int j = 0; j < iarr[i].length; j++) {
                 System.out.print(iarr[i][j] + " ");
             }
             System.out.println();

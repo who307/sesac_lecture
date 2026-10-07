@@ -12,14 +12,14 @@ public class Application3 {
         Scanner sc = new Scanner(System.in);
 
         // 2. 키보드로 점수를 입력받아 배열에 값을 할당한다. (반복문 사용)
-        for(int i = 0; i < scores.length; i++){
+        for (int i = 0; i < scores.length; i++) {
             System.out.print((i + 1) + "번째 학생의 점수를 입력해주세요:");
             scores[i] = sc.nextInt();
         }
 
         // 3. 합계와 평균을 계산한다. (반복문 사용)
         double sum = 0.0;
-        for(int i = 0; i < scores.length; i++){
+        for (int i = 0; i < scores.length; i++) {
             sum += scores[i];
         }
         double avg = sum / scores.length;
