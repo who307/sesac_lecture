@@ -1,6 +1,6 @@
-package com.woong3e.section02.package_and_import;
+package com.who307.section02.package_and_import;
 
-import com.woong3e.section01.method.Calculator;
+import com.who307.section01.method.Calculator;
 
 public class Application1 {
     public static void main(String[] args) {

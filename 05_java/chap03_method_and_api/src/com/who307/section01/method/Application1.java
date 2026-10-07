@@ -1,4 +1,4 @@
-package com.woong3e.section01.method;
+package com.who307.section01.method;
 
 public class Application1 {
     public static void main(String[] args) {
