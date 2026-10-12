@@ -1,4 +1,4 @@
-package com.who307.init;
+package com.who307.setction01.init;
 
 public class Car {
 
