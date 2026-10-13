@@ -1,4 +1,4 @@
-package com.ohgiraffers.section01.uses;
+package com.who307.section01.users;
 
 import java.util.Scanner;
 
@@ -40,7 +40,7 @@ public class MemberService {
         System.out.print("검색할 아이디를 입력하세요 : ");
         String searchId = sc.nextLine();
 
-        // Respository에서 모든 회원 정보를 가져온다. (객체 배열 return)
+        // Repository에서 모든 회원 정보를 가져온다. (객체 배열 return)
         Member[] foundMembers = MemberRepository.findAllMembers();
 
         // 검색 결과를 찾았는지 여부를 확인하기 위한 변수 선언

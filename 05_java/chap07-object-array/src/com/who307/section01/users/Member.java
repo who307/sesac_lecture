@@ -1,4 +1,4 @@
-package com.ohgiraffers.section01.uses;
+package com.who307.section01.users;
 
 public class Member {
 

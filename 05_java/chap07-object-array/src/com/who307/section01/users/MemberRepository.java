@@ -1,10 +1,10 @@
-package com.ohgiraffers.section01.uses;
+package com.who307.section01.users;
 
 public class MemberRepository {
 
     /*
     * Repository는 데이터를 저장하고 조회하는 역할을 담당한다.
-    * 이후 데이터베이스를 배우면 이 역할을 데이터 베이스 접근 코드로 확장할 수 있다.
+    * 이후 데이터베이스를 배우면 이 역할을 데이터베이스 접근 코드로 확장할 수 있다.
     * */
 
     private static final Member[] members;
