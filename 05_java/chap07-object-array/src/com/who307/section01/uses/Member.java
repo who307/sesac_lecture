@@ -1,4 +1,4 @@
-package com.who307.setction01.users;
+package com.ohgiraffers.section01.uses;
 
 public class Member {
 
@@ -7,6 +7,9 @@ public class Member {
     private String pwd;
     private String name;
     private int age;
+
+    public Member() {
+    }
 
     public Member(int num, String id, String pwd, String name, int age) {
         this.num = num;
@@ -56,7 +59,7 @@ public class Member {
         this.age = age;
     }
 
-    public String getInformation(){
+    public String getInformation() {
         return id + " " + name + " " + age;
     }
 }
