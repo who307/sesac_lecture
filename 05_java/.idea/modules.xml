@@ -9,6 +9,7 @@
       <module fileurl="file://$PROJECT_DIR$/chap04-control-flow/chap04-control-flow.iml" filepath="$PROJECT_DIR$/chap04-control-flow/chap04-control-flow.iml" />
       <module fileurl="file://$PROJECT_DIR$/chap05-array/chap05-array.iml" filepath="$PROJECT_DIR$/chap05-array/chap05-array.iml" />
       <module fileurl="file://$PROJECT_DIR$/chap06-class-and-object/chap06-class-and-object.iml" filepath="$PROJECT_DIR$/chap06-class-and-object/chap06-class-and-object.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chap07-object-array/chap07-object-array.iml" filepath="$PROJECT_DIR$/chap07-object-array/chap07-object-array.iml" />
       <module fileurl="file://$PROJECT_DIR$/java-practice/java-practice.iml" filepath="$PROJECT_DIR$/java-practice/java-practice.iml" />
     </modules>
   </component>
