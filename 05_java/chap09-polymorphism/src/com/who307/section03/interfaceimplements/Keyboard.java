@@ -1,4 +1,4 @@
-package com.ohgirafffers.section03.interfaceimplements;
+package com.who307.section03.interfaceimplements;
 
 public class Keyboard implements IConnectable {
 

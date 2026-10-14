@@ -1,4 +1,4 @@
-package com.ohgirafffers.section02.abstractclass;
+package com.who307.section02.abstractclass;
 
 public abstract class Player {
     /*
