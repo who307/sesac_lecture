@@ -1,6 +1,7 @@
 package game;
 
 import pet.Pet;
+import pet.egg.Egg;
 
 import java.util.Scanner;
 
@@ -27,6 +28,21 @@ public class GameManager {
         while (!gameOver && day <= maxDays){
             System.out.println("==============="+day+"일차=================");
             System.out.println("새로운 하루가 시작되었습니다!");
+
+            // 진화: 진화 시점은 각 펫이 day를 보고 결정, 진화하지 않으면 자기 자신이 그대로 리턴됨
+            Pet evolved = pet.evolve(day);
+            if(evolved != pet){
+                pet = evolved;
+                pet.showHappyImage();
+                pet.makeSound();
+            }
+
+            // 알이 부화하지 못하면 엔딩
+            if(pet instanceof Egg && ((Egg) pet).isHatchFailed()){
+                System.out.println("게임을 종료합니다.");
+                return;
+            }
+
             pet.getInfo();
 
             // 하루 행동 제한
@@ -57,14 +73,8 @@ public class GameManager {
                 return;
             }
             day++;
-
-            if(day == 3 || day == 7){
-                pet = pet.evolve(day);
-                pet.showHappyImage();
-                pet.makeSound();
-            }
-            }
         }
+    }
 
     // 행동 메뉴
     private void showMenu(){
