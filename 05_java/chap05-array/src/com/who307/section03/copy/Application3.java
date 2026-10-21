@@ -21,7 +21,7 @@ public class Application3 {
         }
         System.out.println(Arrays.toString(arr));
         /*
-        * 향상도니 for문 : 값을 '읽을' 목적일 때
+        * 향상된 for문 : 값을 '읽을' 목적일 때
         * 일반 for문 : 값을 '수정'할 목적일 때*/
     }
 }
