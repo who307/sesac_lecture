@@ -11,39 +11,38 @@ SELECT
     category_code
 FROM
 	tbl_menu
-WHERE
+WHERE 
 	category_code = 10
-UNION -- 두 결과를 합침 (중복은 제거하고~)
+UNION    -- 두 결과를 합쳐줘~ (중복은 제거하고~)
 SELECT
 	menu_name,
     menu_price,
     category_code
 FROM
 	tbl_menu
-WHERE
-	menu_price < 9000;
-    
--- UNION ALL : 두 결과를 합침 (중복 포함)
-SELECT
-	menu_name,
-    menu_price,
-    category_code
-FROM
-	tbl_menu
-WHERE
-	category_code = 10
-UNION ALL -- 두 결과를 합침 (중복 포함)
-SELECT
-	menu_name,
-    menu_price,
-    category_code
-FROM
-	tbl_menu
-WHERE
+WHERE 
 	menu_price < 9000;
 
+-- UNION ALL : 두 결과를 합치기(중복 포함)
+SELECT
+	menu_name,
+    menu_price,
+    category_code
+FROM
+	tbl_menu
+WHERE 
+	category_code = 10
+UNION ALL   -- 두 결과를 합쳐줘~ (중복 포함)
+SELECT
+	menu_name,
+    menu_price,
+    category_code
+FROM
+	tbl_menu
+WHERE 
+	menu_price < 9000;
+    
 /* 교집합 */
--- INNER JOIN 활용
 SELECT
 	a.menu_code,
     a.menu_price,
@@ -56,17 +55,17 @@ WHERE category_code = 10
 						FROM
 							tbl_menu
 						WHERE
-							menu_price < 9000);
-                            
--- 차집합
+							menu_price < 9000); 
+             
+/* 차집합 */
 -- 10번 카테고리 메뉴 중에서 가격이 9천원 미만인 메뉴를 제외하는 차집합 조회
-    SELECT
+SELECT
 	a.menu_code,
     a.menu_price,
     a.category_code
 FROM 
 	tbl_menu a
-LEFT JOIN(SELECT
+LEFT JOIN (SELECT
 				menu_code
 			FROM
 				tbl_menu
