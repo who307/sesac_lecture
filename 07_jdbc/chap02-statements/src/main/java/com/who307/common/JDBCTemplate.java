@@ -1,4 +1,4 @@
-package org.example.section02.template;
+package com.who307.common;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -15,7 +15,7 @@ public class JDBCTemplate {
         Connection con = null;
         Properties prop = new Properties();
 
-        try (FileReader reader = new FileReader("src/main/java/org/example/config/jdbc-config.properties")) {
+        try (FileReader reader = new FileReader("src/main/java/com/who307/config/jdbc-config.properties")) {
             prop.load(reader);
 
             String driver = prop.getProperty("driver");
@@ -36,9 +36,10 @@ public class JDBCTemplate {
         }
         return con;
     }
+
     public static void close(Connection con) {
         try {
-            if (con != null && !con.isClosed()) {
+            if(con != null && !con.isClosed()){
                 con.close();
             }
         } catch (SQLException e) {
