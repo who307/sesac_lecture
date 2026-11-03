@@ -1,0 +1,25 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.ohgiraffers'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.mysql:mysql-connector-j:8.0.33'
+    implementation 'org.hibernate.orm:hibernate-core:7.2.25.Final'
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+test {
+    useJUnitPlatform()
+}

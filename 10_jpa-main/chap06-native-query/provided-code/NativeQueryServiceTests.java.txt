@@ -1,0 +1,31 @@
+package com.ohgiraffers.springdatajpa.menu.service;
+
+import com.ohgiraffers.springdatajpa.menu.dto.CategoryMenuCountView;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest
+@Transactional
+class NativeQueryServiceTests {
+
+    @Autowired
+    private MenuService menuService;
+
+    @Test
+    @DisplayName("Native Query로 카테고리별 메뉴 수 조회")
+    void findCategoryMenuCountsTest() {
+        List<CategoryMenuCountView> result = menuService.findCategoryMenuCounts();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(row -> row.getMenuCount() >= 0));
+    }
+
+}

@@ -1,0 +1,36 @@
+package com.ohgiraffers.associationmapping.section02.onetomany;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
+@SpringBootTest
+@Transactional
+public class OneToManyServiceTests {
+
+    @Autowired
+    private OneToManyService oneToManyService;
+
+    @Test
+    @DisplayName("1:N 연관관계로 카테고리에서 메뉴 목록 조회")
+    void oneToManyFindTest() {
+        // given
+        int categoryCode = 4;
+
+        // when
+        Category category = oneToManyService.findCategory(categoryCode);
+        List<Menu> menuList = category.getMenuList();
+
+        // then
+        System.out.println(category.getMenuList());
+        assertNotNull(category);
+        assertFalse(menuList.isEmpty());
+    }
+}

@@ -1,0 +1,11 @@
+import com.ohgiraffers.springdatajpa.menu.dto.MenuPriceRankView;
+
+@Query(value = """
+        SELECT m.menu_code AS menuCode,
+               m.menu_name AS menuName,
+               m.menu_price AS menuPrice,
+               RANK() OVER (ORDER BY m.menu_price DESC) AS priceRank
+          FROM tbl_menu m
+         ORDER BY priceRank, m.menu_code
+        """, nativeQuery = true)
+List<MenuPriceRankView> findMenuPriceRanks();

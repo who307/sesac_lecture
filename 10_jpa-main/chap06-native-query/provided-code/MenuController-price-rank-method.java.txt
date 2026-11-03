@@ -1,0 +1,6 @@
+import com.ohgiraffers.springdatajpa.menu.dto.MenuPriceRankView;
+
+@GetMapping("/reports/price-ranks")
+public ResponseEntity<List<MenuPriceRankView>> findMenuPriceRanks() {
+    return ResponseEntity.ok(menuService.findMenuPriceRanks());
+}

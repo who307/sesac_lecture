@@ -1,0 +1,33 @@
+package com.ohgiraffers.springdatajpa.menu.service;
+
+import com.ohgiraffers.springdatajpa.menu.dto.MenuPriceRankView;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+@SpringBootTest
+@Transactional
+class MenuPriceRankServiceTests {
+
+    @Autowired
+    private MenuService menuService;
+
+    @Test
+    @DisplayName("MySQL 윈도 함수로 메뉴 가격 순위 조회")
+    void findMenuPriceRanksTest() {
+        List<MenuPriceRankView> result = menuService.findMenuPriceRanks();
+
+        assertFalse(result.isEmpty());
+        assertEquals(1L, result.get(0).getPriceRank());
+        assertTrue(result.get(0).getMenuPrice()
+                >= result.get(result.size() - 1).getMenuPrice());
+    }
+}

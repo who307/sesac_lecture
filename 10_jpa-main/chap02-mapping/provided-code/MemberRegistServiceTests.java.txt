@@ -1,0 +1,43 @@
+package com.ohgiraffers.mapping.section01.entity;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+@Transactional
+public class MemberRegistServiceTests {
+
+    @Autowired
+    private MemberRegistService memberRegistService;
+
+    @Test
+    @DisplayName("회원 엔티티 매핑과 저장 확인")
+    void testRegistMember() {
+        // given
+        MemberRegistDTO newMember = new MemberRegistDTO(
+                "user01",
+                "pass01",
+                "홍길동",
+                "010-1234-5678",
+                "서울시 종로구",
+                LocalDateTime.now(),
+                MemberRole.ROLE_MEMBER,
+                "Y"
+        );
+
+        // when
+        Member savedMember = memberRegistService.registMember(newMember);
+
+        // then
+        assertTrue(savedMember.getMemberNo() > 0);
+        assertEquals("홍길동", savedMember.getMemberName());
+        assertEquals(MemberRole.ROLE_MEMBER, savedMember.getMemberRole());
+    }
+}

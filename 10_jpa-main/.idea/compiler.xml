@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="association-mapping" options="-parameters" />
+      <module name="association-mapping.main" options="-parameters" />
+      <module name="association-mapping.test" options="-parameters" />
+      <module name="chap02-mapping" options="-parameters" />
+      <module name="chap02-mapping.main" options="-parameters" />
+      <module name="chap02-mapping.test" options="-parameters" />
+      <module name="chap04-spring-data-jpa-crud" options="-parameters" />
+      <module name="chap04-spring-data-jpa-crud.main" options="-parameters" />
+      <module name="chap04-spring-data-jpa-crud.test" options="-parameters" />
+      <module name="chap05-spring-data-jpa-query" options="-parameters" />
+      <module name="chap05-spring-data-jpa-query.main" options="-parameters" />
+      <module name="chap05-spring-data-jpa-query.test" options="-parameters" />
+      <module name="chap06-native-query" options="-parameters" />
+      <module name="chap06-native-query.main" options="-parameters" />
+      <module name="chap06-native-query.test" options="-parameters" />
+    </option>
+  </component>
+</project>

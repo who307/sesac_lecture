@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class EntityManagerTests {
+public class EntityManagerFactoryGeneratorTests {
 
     @Test
     @DisplayName("엔티티 매니저 팩토리 생성 확인")
-    void testGenerateEntityManagerFactory(){
-        //given
+    void testGenerateEntityManagerFactory() {
+        // given
         // when
         EntityManagerFactory factory = EntityManagerFactoryGenerator.getInstance();
         // then
@@ -21,18 +21,18 @@ public class EntityManagerTests {
 
     @Test
     @DisplayName("엔티티 매니저 팩토리 싱글톤 인스턴스 확인")
-    void testGenerateEntityManagerFactorySingleton(){
-        //given
+    void testIsEntityManagerFactorySingleton() {
         // when
         EntityManagerFactory factory1 = EntityManagerFactoryGenerator.getInstance();
         EntityManagerFactory factory2 = EntityManagerFactoryGenerator.getInstance();
-        // then
+
+        //then
         assertSame(factory1, factory2);
     }
 
     @Test
-    @DisplayName("엔티티 매니저 팩토리 스코프 확인")
-    void testEntityManagerLifeCycle(){
+    @DisplayName("엔티티 매니저 스코프 확인")
+    void testEntityManagerLifeCycle() {
         //when
         EntityManager entityManager1 = EntityManagerGenerator.getInstance();
         EntityManager entityManager2 = EntityManagerGenerator.getInstance();
@@ -40,4 +40,5 @@ public class EntityManagerTests {
         //then
         assertNotSame(entityManager1, entityManager2);
     }
+
 }

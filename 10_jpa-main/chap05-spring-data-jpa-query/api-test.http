@@ -1,0 +1,30 @@
+### 전체 메뉴 조회
+GET http://localhost:8080/api/v1/menus
+
+### 메뉴 상세 조회
+GET http://localhost:8080/api/v1/menus/10
+
+### 메뉴 등록
+POST http://localhost:8080/api/v1/menus
+Content-Type: application/json
+
+{
+  "menuName": "돈까스 스파게티",
+  "menuPrice": 15000,
+  "categoryCode": 4,
+  "orderableStatus": "Y"
+}
+
+### 메뉴 수정 - 앞의 등록 응답에 나온 menuCode로 변경
+PUT http://localhost:8080/api/v1/menus/22
+Content-Type: application/json
+
+{
+  "menuName": "치즈 돈까스 스파게티",
+  "menuPrice": 17000,
+  "categoryCode": 4,
+  "orderableStatus": "Y"
+}
+
+### 메뉴 삭제 - 앞의 등록 응답에 나온 menuCode로 변경
+DELETE http://localhost:8080/api/v1/menus/22

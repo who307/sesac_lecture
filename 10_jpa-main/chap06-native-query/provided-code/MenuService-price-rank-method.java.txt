@@ -1,0 +1,6 @@
+import com.ohgiraffers.springdatajpa.menu.dto.MenuPriceRankView;
+
+@Transactional(readOnly = true)
+public List<MenuPriceRankView> findMenuPriceRanks() {
+    return menuRepository.findMenuPriceRanks();
+}
