@@ -1,0 +1,30 @@
+### 전체 메뉴 조회
+GET http://localhost:8080/api/v1/menus
+
+### 상세 메뉴 조회
+GET http://localhost:8080/api/v1/menus/9002
+
+### 메뉴 등록
+POST http://localhost:8080/api/v1/menus
+Content-Type: application/json
+
+{
+  "menuName": "까르보나라",
+  "menuPrice": 14000,
+  "categoryCode": 4,
+  "orderableStatus": "Y"
+}
+
+### 메뉴 수정
+PUT http://localhost:8080/api/v1/menus/9002
+Content-Type: application/json
+
+{
+  "menuName": "베이컨 까르보나라",
+  "menuPrice": "16000",
+  "categoryCode": 4,
+  "orderableStatus": "Y"
+}
+
+### 메뉴 삭제
+DELETE http://localhost:8080/api/v1/menus/9002

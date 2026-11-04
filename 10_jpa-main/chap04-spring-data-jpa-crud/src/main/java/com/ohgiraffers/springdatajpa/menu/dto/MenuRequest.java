@@ -16,6 +16,7 @@ public class MenuRequest {
     private int categoryCode;
 
     @Pattern(regexp = "Y|N", message = "주문 가능 상태는 Y 또는 N이어야 합니다.")
+    @NotBlank
     private String orderableStatus;
 
     public MenuRequest() {}

@@ -2,11 +2,14 @@ package com.ohgiraffers.springdatajpa.menu.service;
 
 import com.ohgiraffers.springdatajpa.menu.dto.MenuRequest;
 import com.ohgiraffers.springdatajpa.menu.dto.MenuResponse;
+import com.ohgiraffers.springdatajpa.menu.dto.PageResponse;
 import com.ohgiraffers.springdatajpa.menu.entity.Category;
 import com.ohgiraffers.springdatajpa.menu.entity.Menu;
 import com.ohgiraffers.springdatajpa.menu.exception.ResourceNotFoundException;
 import com.ohgiraffers.springdatajpa.menu.repository.CategoryRepository;
 import com.ohgiraffers.springdatajpa.menu.repository.MenuRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,5 +92,32 @@ public class MenuService {
                 category.getCategoryName(),
                 menu.getOrderableStatus()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuResponse> findMenusByMinimumPrice(int minPrice) {
+
+        return menuRepository
+                .findByMenuPriceGreaterThanEqualOrderByMenuPriceDesc(minPrice)
+                .stream()
+                .map(this::toResponse)
+                .toList();
+    }
+    @Transactional(readOnly = true)
+    public List<MenuResponse> searchMenusByName(String keyword) {
+        return menuRepository.searchByMenuName(keyword).stream()
+                .map(this::toResponse)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PageResponse<MenuResponse> findMenuPage(Pageable pageable) {
+        Page<MenuResponse> responsePage = menuRepository
+                .findPageWithCategory(pageable) // Page<Menu>
+                // Page.map() : 페이지 번호와 전체 건수 같은 정보유지하면서 content 안의 Menu만 MenuResponse로 바꾼다.
+                .map(this::toResponse); // 스트림의 map()과 목적은 비슷하지만 결과가 다시 Page라는 점이 다름
+
+        return PageResponse.from(responsePage);
+
     }
 }

@@ -53,8 +53,10 @@ public class BiDirectionServiceTests {
     @DisplayName("연관관계 편의 메소드로 객체 양쪽을 함께 연결")
     void addMenuTest() {
         // given
-        Category category = new Category(9002, "퓨전", null);
-        Menu menu = new Menu(9002, "돈까스 스파게티", 15000, null, "Y");
+        Category category =
+                new Category(9002, "퓨전", null);
+        Menu menu =
+                new Menu(9002, "돈까스 스파게티", 15000, null, "Y");
 
         // when
         category.addMenu(menu);

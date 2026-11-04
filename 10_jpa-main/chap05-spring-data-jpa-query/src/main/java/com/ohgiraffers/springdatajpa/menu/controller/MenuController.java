@@ -2,19 +2,15 @@ package com.ohgiraffers.springdatajpa.menu.controller;
 
 import com.ohgiraffers.springdatajpa.menu.dto.MenuRequest;
 import com.ohgiraffers.springdatajpa.menu.dto.MenuResponse;
+import com.ohgiraffers.springdatajpa.menu.dto.PageResponse;
 import com.ohgiraffers.springdatajpa.menu.service.MenuService;
 import jakarta.validation.Valid;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -56,4 +52,25 @@ public class MenuController {
         menuService.deleteMenu(menuCode);
         return ResponseEntity.noContent().build();
     }
+    @GetMapping("/search/price")
+    public  ResponseEntity<List<MenuResponse>> findMenusByPrice(
+            @RequestParam int minPrice
+    ) {
+        return ResponseEntity.ok(menuService.findMenusByMinimumPrice(minPrice));
+    }
+
+    @GetMapping("/search/name")
+    public ResponseEntity<List<MenuResponse>> searchMenusByName(
+            @RequestParam String keyword
+    ){
+        return ResponseEntity.ok(menuService.searchMenusByName(keyword));
+    }
+
+    @GetMapping("/page")
+    public ResponseEntity<PageResponse<MenuResponse>> findMenuPage(
+            @PageableDefault(size = 5, sort = "menuCode") Pageable pageable
+    ){
+        return ResponseEntity.ok(menuService.findMenuPage(pageable));
+    }
+
 }
