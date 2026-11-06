@@ -1,0 +1,33 @@
+### 회원 가입
+# 이미 user01을 가입했다면 409는 중복 방지 결과입니다. 기존 계정으로 로그인합니다.
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "userId": "user01",
+  "password": "pass1234",
+  "userName": "홍길동",
+  "email": "user01@test.com"
+}
+
+### 로그인 - 응답의 accessToken을 아래 변수에 복사
+POST http://localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "userId": "user01",
+  "password": "pass1234"
+}
+
+> {% client.global.set("accessToken", response.body.accessToken); %}
+
+### 인증 없이 내 정보 요청 - 401 예상
+GET http://localhost:8080/api/users/me
+
+### Bearer 토큰으로 내 정보 요청
+GET http://localhost:8080/api/users/me
+Authorization: Bearer {{accessToken}}
+
+### USER 권한으로 관리자 API 요청 - 403 예상
+GET http://localhost:8080/api/admin/dashboard
+Authorization: Bearer {{accessToken}}

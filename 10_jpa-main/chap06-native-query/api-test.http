@@ -37,3 +37,8 @@ Content-Type: application/json
 
 ### 메뉴 삭제 - 앞의 등록 응답에 나온 menuCode로 변경
 DELETE http://localhost:8080/api/v1/menus/22
+
+### 카테고리별 메뉴 수 - Native Qouery(인터페이스 프로젝션)
+GET http://localhost:8080/api/v1/menus/reports/category-menu-counts
+### 메뉴 가격 순위 - MYSQL 윈도 함수
+GET http://localhost:8080/api/v1/menus/reports/price-ranks

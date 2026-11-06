@@ -1,0 +1,149 @@
+package com.ohgiraffers.securitybasic;
+
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import com.ohgiraffers.securitybasic.user.domain.UserAccount;
+import com.ohgiraffers.securitybasic.user.domain.UserRole;
+import com.ohgiraffers.securitybasic.user.repository.UserAccountRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@ActiveProfiles("test")
+@Transactional
+class JwtAuthenticationFlowTests {
+
+    @Autowired private MockMvc mockMvc;
+    @Autowired private ObjectMapper objectMapper;
+    @Autowired private UserAccountRepository userAccountRepository;
+    @Autowired private PasswordEncoder passwordEncoder;
+
+    @Test
+    @DisplayName("로그인에 성공하면 Bearer Access Token을 발급한다")
+    void loginTest() throws Exception {
+        UserAccount user = saveUser(UserRole.USER);
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginBody(user.getUserId(), "pass1234")))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.tokenType").value("Bearer"))
+                .andExpect(jsonPath("$.accessToken").isNotEmpty())
+                .andExpect(jsonPath("$.expiresIn").value(3600));
+    }
+
+    @Test
+    @DisplayName("Access Token으로 자신의 정보를 조회한다")
+    void accessTokenAuthenticationTest() throws Exception {
+        UserAccount user = saveUser(UserRole.USER);
+        String accessToken = login(user.getUserId(), "pass1234");
+
+        mockMvc.perform(get("/api/users/me")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.userId").value(user.getUserId()));
+    }
+
+    @Test
+    @DisplayName("인증 정보 없이 보호된 API를 요청하면 401을 반환한다")
+    void authenticationRequiredTest() throws Exception {
+        mockMvc.perform(get("/api/users/me"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("서명이 올바르지 않은 토큰은 401을 반환한다")
+    void invalidTokenTest() throws Exception {
+        mockMvc.perform(get("/api/users/me")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer invalid.token.value"))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    @DisplayName("USER 토큰으로 관리자 API를 요청하면 403을 반환한다")
+    void userAuthorizationDeniedTest() throws Exception {
+        UserAccount user = saveUser(UserRole.USER);
+        String accessToken = login(user.getUserId(), "pass1234");
+
+        mockMvc.perform(get("/api/admin/dashboard")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    @DisplayName("ADMIN 토큰으로 관리자 API를 요청하면 접근할 수 있다")
+    void adminAuthorizationTest() throws Exception {
+        UserAccount admin = saveUser(UserRole.ADMIN);
+        String accessToken = login(admin.getUserId(), "pass1234");
+
+        mockMvc.perform(get("/api/admin/dashboard")
+                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + accessToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("관리자 페이지입니다."));
+    }
+
+    @Test
+    @DisplayName("틀린 비밀번호로 로그인하면 401을 반환한다")
+    void loginFailureTest() throws Exception {
+        UserAccount user = saveUser(UserRole.USER);
+
+        mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginBody(user.getUserId(), "wrong-password")))
+                .andExpect(status().isUnauthorized())
+                .andExpect(jsonPath("$.message")
+                        .value("아이디 또는 비밀번호가 올바르지 않습니다."));
+    }
+
+    private UserAccount saveUser(UserRole role) {
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        return userAccountRepository.save(new UserAccount(
+                "user-" + suffix,
+                passwordEncoder.encode("pass1234"),
+                "테스트 사용자",
+                suffix + "@test.com",
+                role
+        ));
+    }
+
+    private String login(String userId, String password) throws Exception {
+        MvcResult result = mockMvc.perform(post("/api/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(loginBody(userId, password)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        JsonNode response = objectMapper.readTree(result.getResponse().getContentAsString());
+        String accessToken = response.get("accessToken").asText();
+        assertThat(accessToken).isNotBlank();
+        return accessToken;
+    }
+
+    private String loginBody(String userId, String password) {
+        return """
+                {
+                  "userId": "%s",
+                  "password": "%s"
+                }
+                """.formatted(userId, password);
+    }
+}

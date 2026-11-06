@@ -1,4 +1,8 @@
 package com.ohgiraffers.springdatajpa.menu.dto;
 
-public class MenuPriceRankView {
+public interface MenuPriceRankView {
+    int getMenuCode();
+    String getMenuName();
+    int getMenuPrice();
+    long getPriceRank();
 }

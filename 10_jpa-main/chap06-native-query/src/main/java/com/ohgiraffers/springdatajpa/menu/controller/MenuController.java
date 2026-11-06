@@ -1,8 +1,6 @@
 package com.ohgiraffers.springdatajpa.menu.controller;
 
-import com.ohgiraffers.springdatajpa.menu.dto.MenuRequest;
-import com.ohgiraffers.springdatajpa.menu.dto.MenuResponse;
-import com.ohgiraffers.springdatajpa.menu.dto.PageResponse;
+import com.ohgiraffers.springdatajpa.menu.dto.*;
 import com.ohgiraffers.springdatajpa.menu.service.MenuService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
@@ -81,4 +79,15 @@ public class MenuController {
         menuService.deleteMenu(menuCode);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/reports/category-menu-counts")
+    public ResponseEntity<List<CategoryMenuCountView>> findCategoryMenuCounts() {
+        return ResponseEntity.ok(menuService.findCategoryMenuCounts());
+    }
+    @GetMapping("/reports/price-ranks")
+    public ResponseEntity<List<MenuPriceRankView>> findMenuPriceRanks(){
+        return ResponseEntity.ok(menuService.findMenuPriceRanks());
+
+    }
+
 }

@@ -1,0 +1,64 @@
+@base = http://localhost:8080/api/v1/practice
+@orderId = 8
+@lineId = 1
+@categoryCode = 4
+
+### 주문 생성: 응답 id/lines[0].id를 위 변수에 복사
+POST {{base}}/orders
+Content-Type: application/json
+
+{"customer":"홍길동"}
+
+### 조회: 생성 시각과 항목 두 개
+GET {{base}}/orders/{{orderId}}
+
+### 항목 하나 제거: 메뉴가 아니라 주문 전용 항목을 삭제
+DELETE {{base}}/orders/{{orderId}}/lines/{{lineId}}
+
+### 남은 항목 하나 확인
+GET {{base}}/orders/{{orderId}}
+
+### 부모 제거
+DELETE {{base}}/orders/{{orderId}}
+
+### 제거 후 404
+GET {{base}}/orders/{{orderId}}
+
+### 3절 Auditing용 새 주문 생성: 새 응답 id를 orderId에 복사
+POST {{base}}/orders
+Content-Type: application/json
+
+{"customer":"시각 확인 학생"}
+
+### 생성 시각 확인
+GET {{base}}/orders/{{orderId}}
+
+### 고객명 수정: 기존 이름과 다르게 변경
+PATCH {{base}}/orders/{{orderId}}/customer
+Content-Type: application/json
+
+{"customer":"수정한 학생"}
+
+### 생성 시각 유지와 수정 시각 확인
+GET {{base}}/orders/{{orderId}}
+
+### Auditing 확인용 주문도 자기 번호로 정리
+DELETE {{base}}/orders/{{orderId}}
+
+### 4-1 이름 조건만 검색
+GET {{base}}/menus?keyword=마늘&page=0&size=5&sort=menuCode,asc
+
+### 4-1 이름을 생략한 전체 조회
+GET {{base}}/menus?page=0&size=5&sort=menuCode,asc
+
+### 4-2 이름+최소 가격
+GET {{base}}/menus?keyword=마늘&minPrice=2000&page=0&size=5
+
+### 4-2 최소 가격만
+GET {{base}}/menus?minPrice=2000&page=0&size=5
+
+### 4-3 전체 선택 조건 조합: 실제 카테고리 번호로 변경
+GET {{base}}/menus?keyword=마늘&minPrice=2000&maxPrice=30000&categoryCode={{categoryCode}}&page=0&size=5
+
+### 잘못된 가격 범위: 400
+GET {{base}}/menus?minPrice=5000&maxPrice=1000

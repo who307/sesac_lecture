@@ -1,8 +1,6 @@
 package com.ohgiraffers.springdatajpa.menu.service;
 
-import com.ohgiraffers.springdatajpa.menu.dto.MenuRequest;
-import com.ohgiraffers.springdatajpa.menu.dto.MenuResponse;
-import com.ohgiraffers.springdatajpa.menu.dto.PageResponse;
+import com.ohgiraffers.springdatajpa.menu.dto.*;
 import com.ohgiraffers.springdatajpa.menu.entity.Category;
 import com.ohgiraffers.springdatajpa.menu.entity.Menu;
 import com.ohgiraffers.springdatajpa.menu.exception.ResourceNotFoundException;
@@ -117,5 +115,15 @@ public class MenuService {
                 category.getCategoryName(),
                 menu.getOrderableStatus()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public List<CategoryMenuCountView> findCategoryMenuCounts() {
+        return menuRepository.findCategoryMenuCounts();
+    }
+
+    @Transactional(readOnly = true)
+    public List<MenuPriceRankView> findMenuPriceRanks() {
+        return menuRepository.findMenuPriceRanks();
     }
 }

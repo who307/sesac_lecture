@@ -1,0 +1,22 @@
+### 회원 가입
+# 이미 user01을 가입했다면 409는 중복 방지 결과입니다. 기존 계정으로 로그인합니다.
+POST http://localhost:8080/api/auth/signup
+Content-Type: application/json
+
+{
+  "userId": "user01",
+  "password": "pass1234",
+  "userName": "홍길동",
+  "email": "user01@test.com"
+}
+
+### 인증 없이 내 정보 요청 - 401 예상
+GET http://localhost:8080/api/users/me
+
+### HTTP Basic 인증으로 내 정보 요청
+GET http://localhost:8080/api/users/me
+Authorization: Basic user01 pass1234
+
+### USER 권한으로 관리자 API 요청 - 403 예상
+GET http://localhost:8080/api/admin/dashboard
+Authorization: Basic user01 pass1234

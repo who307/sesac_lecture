@@ -1,0 +1,10 @@
+@Transactional(readOnly = true)
+public Page<MenuResponse> search(String keyword, Integer minPrice,
+                                Integer maxPrice, Integer categoryCode, Pageable pageable) {
+    if ((minPrice != null && minPrice < 0) || (maxPrice != null && maxPrice < 0)
+            || (minPrice != null && maxPrice != null && minPrice > maxPrice)) {
+        throw new IllegalArgumentException("가격 범위를 확인하세요.");
+    }
+    return menus.findAll(MenuSpecifications.search(keyword, minPrice, maxPrice, categoryCode),
+            pageable).map(MenuResponse::from);
+}

@@ -1,0 +1,45 @@
+package com.ohgiraffers.practicaljpa;
+
+import com.ohgiraffers.practicaljpa.menu.*;
+import com.ohgiraffers.practicaljpa.order.*;
+import jakarta.persistence.*;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.*;
+import java.io.IOException;
+import java.util.List;
+import static org.junit.jupiter.api.Assertions.*;
+
+class TransactionTests extends FixtureSupport {
+    @Test
+    void runtimeRollback() {
+        assertThrows(IllegalStateException.class, () -> orders.failRuntime(prefix + "실패 주문"));
+        assertEquals(0, ownOrderCount());
+    }
+
+    @Test
+    void checkedExceptionCommitsByDefault() {
+        assertThrows(IOException.class, () -> orders.failCheckedDefault(prefix + "체크 예외"));
+        assertEquals(1, ownOrderCount());
+    }
+
+    @Test
+    void rollbackForCheckedException() {
+        assertThrows(IOException.class, () -> orders.failCheckedRollback(prefix + "체크 예외"));
+        assertEquals(0, ownOrderCount());
+    }
+
+    @Test
+    void locallyCaughtBusinessExceptionDoesNotTriggerRollback() {
+        orders.swallowFailure(prefix + "잡은 예외");
+        assertEquals(1, ownOrderCount());
+    }
+
+    @Test
+    void selfInvocationBypassesServiceTransaction() {
+        assertThrows(IllegalStateException.class, () -> orders.selfInvocation(prefix + "내부 호출"));
+        // 서비스 트랜잭션 없이 저장소 자체 트랜잭션이 커밋했다.
+        assertEquals(1, ownOrderCount());
+    }
+}
