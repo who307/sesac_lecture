@@ -20,17 +20,20 @@ import java.util.Base64;
 @Configuration
 public class JwtInfrastructureConfig {
 
+    /* 발급과 검증이 같은 비밀 키를 사용하도록 설정값을 SecretKey로 바꾼다 */
     @Bean
     public SecretKey jwtSecretKey(@Value("${security.jwt.secret}") String secret) {
         byte[] keyBytes = Base64.getDecoder().decode(secret);
         return new SecretKeySpec(keyBytes, "HmacSHA256");
     }
 
+    // 로그인 성공 후 Claim에 서명해 JWT 문자열을 만드는 도구
     @Bean
     public JwtEncoder jwtEncoder(SecretKey secretKey) {
         return new NimbusJwtEncoder(new ImmutableSecret<SecurityContext>(secretKey));
     }
 
+    //  Bearer 요청으로 들어온 JWT의 서명과 만료 등을 확인하는 도구
     @Bean
     public JwtDecoder jwtDecoder(SecretKey secretKey) {
         return NimbusJwtDecoder.withSecretKey(secretKey)

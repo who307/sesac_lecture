@@ -40,4 +40,11 @@ public class UserAccountService {
 
         return UserResponse.from(userAccountRepository.save(user));
     }
+
+    public UserResponse findByUserId(String userId) {
+        UserAccount user = userAccountRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다."));
+        return UserResponse.from(user);
+    }
 }
+
