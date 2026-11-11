@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -46,12 +47,16 @@ public class SecurityConfig {
             AuthenticationProvider authenticationProvider,
             JwtAuthenticationConverter jwtAuthenticationConverter) throws Exception {
         http
+                // CorsConfigurationSource Bean을 찾아 인증보다 먼저 CORS를 처리한다.
+                .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // 재발급·로그아웃은 Access Token이 만료된 상태에서도 호출되므로 열어 둔다.
                         .requestMatchers(HttpMethod.POST,
-                                "/api/auth/signup", "/api/auth/login").permitAll()
+                                "/api/auth/signup", "/api/auth/login",
+                                "/api/auth/refresh", "/api/auth/logout").permitAll()
                         .requestMatchers("/api/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .oauth2ResourceServer(resourceServer -> resourceServer

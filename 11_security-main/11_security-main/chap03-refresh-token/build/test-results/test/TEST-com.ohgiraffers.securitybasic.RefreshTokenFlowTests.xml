@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" tests="7" skipped="0" failures="0" errors="0" timestamp="2026-11-11T08:50:37.292Z" hostname="DESKTOP-0E6QK2A" time="2.078">
+  <properties/>
+  <testcase name="로그아웃하면 Refresh Token을 폐기하고 Cookie를 만료시킨다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="1.364"/>
+  <testcase name="재발급하면 Access Token과 Refresh Token을 모두 교체한다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.213"/>
+  <testcase name="만료된 Refresh Token으로는 재발급할 수 없다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.174"/>
+  <testcase name="위조된 Refresh Token으로는 재발급할 수 없다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.007"/>
+  <testcase name="비활성 계정은 유효한 Refresh Token이 있어도 재발급할 수 없다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.16"/>
+  <testcase name="Refresh Token Cookie가 없으면 401을 반환한다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.006"/>
+  <testcase name="로그인하면 Access Token과 HttpOnly Refresh Token을 발급한다" classname="com.ohgiraffers.securitybasic.RefreshTokenFlowTests" time="0.147"/>
+  <system-out><![CDATA[2026-11-11T17:50:37.268+09:00  INFO 16624 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.ohgiraffers.securitybasic.RefreshTokenFlowTests]: RefreshTokenFlowTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-11T17:50:37.275+09:00  INFO 16624 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.ohgiraffers.securitybasic.SecurityBasicApplication for test class com.ohgiraffers.securitybasic.RefreshTokenFlowTests
+2026-11-11T17:50:37.277+09:00  INFO 16624 --- [    Test worker] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [com.ohgiraffers.securitybasic.RefreshTokenFlowTests]: RefreshTokenFlowTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-11-11T17:50:37.281+09:00  INFO 16624 --- [    Test worker] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration com.ohgiraffers.securitybasic.SecurityBasicApplication for test class com.ohgiraffers.securitybasic.RefreshTokenFlowTests
+2026-11-11T17:50:37.531+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-11-11T17:50:37.531+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:37.531+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-11-11T17:50:38.276+09:00 DEBUG 16624 --- [    Test worker] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-11-11T17:50:38.616+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/logout
+2026-11-11T17:50:38.616+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.616+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/logout
+2026-11-11T17:50:38.640+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:38.642+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.642+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:38.727+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-11-11T17:50:38.727+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.727+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-11-11T17:50:38.794+09:00 DEBUG 16624 --- [    Test worker] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-11-11T17:50:38.810+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:38.810+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.810+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:38.855+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:38.855+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.855+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:38.944+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-11-11T17:50:38.944+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:38.944+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-11-11T17:50:39.010+09:00 DEBUG 16624 --- [    Test worker] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-11-11T17:50:39.031+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:39.031+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.031+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:39.050+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:39.050+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.050+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:39.128+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-11-11T17:50:39.128+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.128+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-11-11T17:50:39.193+09:00 DEBUG 16624 --- [    Test worker] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+2026-11-11T17:50:39.193+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:39.193+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.193+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:39.218+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/refresh
+2026-11-11T17:50:39.218+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.218+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/refresh
+2026-11-11T17:50:39.297+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Securing POST /api/auth/login
+2026-11-11T17:50:39.297+09:00 DEBUG 16624 --- [    Test worker] o.s.s.w.a.AnonymousAuthenticationFilter  : Set SecurityContextHolder to anonymous SecurityContext
+2026-11-11T17:50:39.297+09:00 DEBUG 16624 --- [    Test worker] o.s.security.web.FilterChainProxy        : Secured POST /api/auth/login
+2026-11-11T17:50:39.361+09:00 DEBUG 16624 --- [    Test worker] o.s.s.a.dao.DaoAuthenticationProvider    : Authenticated user
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

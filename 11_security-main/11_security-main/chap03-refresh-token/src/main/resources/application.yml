@@ -22,4 +22,6 @@ security:
     expiration-seconds: 3600
   refresh-token:
     expiration-seconds: 1209600
+    # 로컬 HTTP 실습에서는 false로 둔다.
+    # 운영에서는 HTTPS를 설정하고, 쿠키를 HTTPS 요청에만 보내도록 true로 바꾼다
     cookie-secure: false
