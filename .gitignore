@@ -1,2 +1,17 @@
 # DB 접속 정보 (비밀번호 포함)
 jdbc-config.properties
+
+# API 키 등 환경변수
+.env
+
+# 빌드 산출물 / 캐시
+bin/
+build/
+.gradle/
+
+# 에디터 개인 설정
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
