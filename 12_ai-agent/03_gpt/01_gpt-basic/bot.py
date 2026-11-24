@@ -12,7 +12,10 @@ def sample_reply(messages):
 # 질문을 받고 답변을 출력하며 대화 이력을 쌓는다
 def chat_loop(reply_to):
     history = []
-    system = {"role": "system", "content": "당신은 친절한 강사입니다."}
+    system = {"role": "system", "content": ("당신은 주니어 개발자 면접 개발을 돕는 면접관이다."
+                                            "사용자가 고른 주제로 질문을 한번에 하나만 하세요."
+                                            "답변을 받으면 그 답변의 표현을 짧게 짚고 꼬리 질문을 하나 하세요."
+                                            "정답이나 모범 답안은 사용자가 요청할 때 알려주세요.")}
 
     while True:
         try:
@@ -36,7 +39,7 @@ def chat_loop(reply_to):
     print("종료합니다")
 
 # OpenAI에 메세지를 보내고 응답에서 답변 문자열을 꺼낸다
-def request_reply(client, messages):
+def request_reply(client: OpenAI, messages):
     response = client.chat.completions.create(
         model="gpt-4o-mini",
         messages=messages,
