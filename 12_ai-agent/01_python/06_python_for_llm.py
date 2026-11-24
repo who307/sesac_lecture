@@ -11,7 +11,7 @@ SAMPLE_REPLY = '{"items": [{"id": 1, "sentiment": "mixed", "score": 75, "key_rea
 '{"id": 3, "sentiment": "mixed", "score": 65, "key_reason": "추가 연습이 필요합니다."}]}'
 
 BROKEN_JSON = '{"items": []'
-MISSING_FIELD_REPLY = '{"items": [{"id": 1, "sentiment": "mixed", "score": 75, "key_reason": "진도는 빠르지만 실습이 도움이 됩니다."}]}'
+MISSING_FIELD_REPLY = '{"items": [{"id": 1, "sentiment": "mixed", "key_reason": "진도는 빠르지만 실습이 도움이 됩니다."}]}'
 RESPONSE_EXAMPLES = {
     "정상 응답" : SAMPLE_REPLY,
     "깨진 JSON" : BROKEN_JSON,
@@ -46,10 +46,29 @@ def parse_response(reply):
                 raise ValueError(f"필수 필드가 없습니다: {key}")
     return items
 
+def show_result(reply):
+    try:
+        items = parse_response(reply)
+    except json.JSONDecodeError:
+        print("응답을 JSON으로 읽을 수 없습니다")
+        return
+    except ValueError as error:
+        print("응답 형식 오류", error)
+        return
+
+    for item in items:
+        print(f'{item["id"]}: {item["sentiment"]} / {item["score"]}점')
+        print(f' 근거: {item["key_reason"]}')
+
 def main():
     prompt = build_prompt(FEEDBACKS)
     print("[모델에 보낼 프롬프트]")
     print(prompt)
+
+    # 딕셔너리.items(): 반복할 때 키와 값을 한 쌍씩 꺼낼 수 있다
+    for name, reply in RESPONSE_EXAMPLES.items():
+        print(f"\n[{name}]")
+        show_result(reply)
 
 if __name__ == "__main__":
     main()

@@ -18,7 +18,7 @@ elif score >= 80:
     grade = 'B'
 else:
     grade = 'F'
-print(f"점쉬: {score}, 등급: {grade}")
+print(f"점수: {score}, 등급: {grade}")
 
 # for in 반복문: 리스트의 값을 하나씩 꺼내 반복
 foods = ["햄버거", "피자", "보쌈"]
